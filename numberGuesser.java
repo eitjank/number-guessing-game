@@ -29,7 +29,7 @@ class numberGuesser implements ActionListener{
         userText.setBounds(100,20,165,25);
         panel.add(userText);
 
-        label2 = new JLabel("USER");
+        label2 = new JLabel("PASSWORD");
         label2.setBounds(10,50,80,25);
         panel.add(label2);
 
@@ -48,15 +48,7 @@ class numberGuesser implements ActionListener{
         // success.setText("text");
 
 
-        frame.setVisible(true);
-
-
-
-
-    //    JButton button = new JButton("Press");
-    //    frame.getContentPane().add(button); // Adds Button to content pane of frame
-
-        
+        frame.setVisible(true);     
 
     //    int number = (int)(Math.random()*100+1);
        

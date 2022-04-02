@@ -4,14 +4,16 @@ import java.awt.event.*;
 class numberGuesser implements ActionListener{
 
     private static JLabel label;
-    private static JTextField userText;
+    private static JTextField guessText;
     private static JLabel label2;
-    private static JPasswordField userText2;
     private static JButton button;
-    private static JLabel success;
+    private static JLabel guessInfo;
+    private static JLabel guessCount;
+    private static int number;
+    private static int numberOfGuesses;
     public static void main(String args[]){
 
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame("Number Guesser");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400,300);
 
@@ -21,68 +23,63 @@ class numberGuesser implements ActionListener{
 
         panel.setLayout(null);
 
-        label = new JLabel("USER");
-        label.setBounds(10,20,80,25);
+        label = new JLabel("Guess a number from 1 to 100");
+        label.setBounds(10,20,300,25);
         panel.add(label);
 
-        userText = new JTextField();
-        userText.setBounds(100,20,165,25);
-        panel.add(userText);
-
-        label2 = new JLabel("PASSWORD");
+        label2 = new JLabel("Your guess");
         label2.setBounds(10,50,80,25);
         panel.add(label2);
 
-        userText2 = new JPasswordField();
-        userText2.setBounds(100,50,165,25);
-        panel.add(userText2);
+        guessText = new JTextField();
+        guessText.setBounds(100,50,165,25);
+        panel.add(guessText);
         
-        button = new JButton("Press");
+        button = new JButton("Guess");
         button.setBounds(10,80,80,25);
         button.addActionListener(new numberGuesser());
         panel.add(button);
 
-        success = new JLabel("");
-        success.setBounds(10,110,300,25);
-        panel.add(success);
-        // success.setText("text");
+        guessInfo = new JLabel("");
+        guessInfo.setBounds(10,110,300,25);
+        panel.add(guessInfo);
 
+        guessCount = new JLabel("");
+        guessCount.setBounds(10,135,300,25);
+        panel.add(guessCount);
 
         frame.setVisible(true);     
 
-    //    int number = (int)(Math.random()*100+1);
-       
-    //    System.out.println("Guess a number from 1 to 100");
+        number = (int)(Math.random()*100+1);
 
-    //    Scanner scanner = new Scanner(System.in);
+        numberOfGuesses = 0;
 
-    //    int guess = 0;
-    //    int numberOfGuesses = 0;
-    //    while(guess != number){
-    //         System.out.print("Enter a number: ");
-    //         guess = scanner.nextInt();
-    //         numberOfGuesses++;
-    //         if(guess > number)
-    //             System.out.println("Too big");
-    //         else if(guess < number)
-    //             System.out.println("Too small");
-    //    }
-       
-    //    System.out.println("Correct. You guessed it! It is " + number);
-    //    System.out.println("You did it in " + numberOfGuesses + " of guesses.");
+    }
 
+    public static boolean isNumeric(String str) {
+        return str != null && str.matches("[-+]?\\d*\\.?\\d+");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String user = userText.getText();
-        String password = userText2.getText();
+        String guess = guessText.getText();
+        
+        if(isNumeric(guess)){
+            guessCount.setText("You guessed " + ++numberOfGuesses + " times.");
+            int guessedNumber = Integer.parseInt(guess);
 
-        if(user.equals("Admin") && password.equals("password")){
-            success.setText("Login successful!");
+            if(guessedNumber==number){
+                guessInfo.setText("Correct. You guessed it! It is " + number + ".");
+            }
+            else{
+                if(guessedNumber > number)
+                    guessInfo.setText("Too big");
+                else if(guessedNumber < number)
+                    guessInfo.setText("Too small");
+            }
         }
         else{
-            success.setText("");
+            guessInfo.setText("'" + guess + "' isn't even a number!");
         }
     }
 }

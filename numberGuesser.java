@@ -16,7 +16,7 @@ class numberGuesser implements ActionListener{
 
         JFrame frame = new JFrame("Number Guesser");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400,300);
+        frame.setSize(350,210);
 
         JPanel panel = new JPanel();
 
@@ -65,30 +65,51 @@ class numberGuesser implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(numberOfGuessesStart-numberOfGuesses>0){
-            String guess = guessText.getText();
-            
-            if(isNumeric(guess)){
-                guessCount.setText("You have " + (numberOfGuessesStart-(++numberOfGuesses)) + " tries left.");
-                int guessedNumber = Integer.parseInt(guess);
 
-                if(guessedNumber==number){
-                    guessInfo.setText("It is " + number + ".");
-                    guessCount.setText("Correct. You have guessed it in " + numberOfGuesses + " tries.");
-                }
-                else{
-                    if(guessedNumber > number)
-                        guessInfo.setText("Too big");
-                    else if(guessedNumber < number)
-                        guessInfo.setText("Too small");
+        if(e.getSource()==button){
+            String guess = guessText.getText();
+            if(isNumeric(guess)){
+                if(numberOfGuessesStart-(++numberOfGuesses)>=0){
+                
+                    guessCount.setText("You have " + (numberOfGuessesStart-numberOfGuesses) + " tries left.");
+                    int guessedNumber = Integer.parseInt(guess);
+
+                    if(guessedNumber==number){
+                        int x=JOptionPane.showConfirmDialog(null,"Correct. You have guessed it in " + numberOfGuesses + " tries. It was " + number + "." + "\n Play again?","Congratulations",JOptionPane.YES_NO_OPTION);
+                        if(x==JOptionPane.YES_OPTION){
+                            number = (int)(Math.random()*100+1);
+                            numberOfGuesses = 0;
+                            guessCount.setText("You have " + (numberOfGuessesStart-numberOfGuesses) + " tries left.");
+                            guessText.setText("");
+                        }
+                        if(x==JOptionPane.NO_OPTION){
+                            System.exit(0);
+                        }
+                    }
+                    else{
+                        if(guessedNumber > number)
+                            guessInfo.setText("Your guess is too big. Try again.");
+                        else if(guessedNumber < number)
+                            guessInfo.setText("Your guess is too small. Try again.");
+                        if(numberOfGuessesStart-numberOfGuesses==0){
+                            int x=JOptionPane.showConfirmDialog(null,"Game over. It was " + number + ".\n Play again?","Game over",JOptionPane.YES_NO_OPTION);
+                            if(x==JOptionPane.YES_OPTION){
+                                number = (int)(Math.random()*100+1);
+                                numberOfGuesses = 0;
+                                guessCount.setText("You have " + (numberOfGuessesStart-numberOfGuesses) + " tries left.");
+                                guessText.setText("");
+                            }
+                            if(x==JOptionPane.NO_OPTION){
+                                System.exit(0);
+                            }
+                        }
+                    }
                 }
             }
             else{
-                guessInfo.setText("'" + guess + "' isn't even a number!");
+                    guessInfo.setText("'" + guess + "' isn't even a number!");
             }
         }
-        else{
-            guessInfo.setText("Game over.");
-        }
+        
     }
 }
